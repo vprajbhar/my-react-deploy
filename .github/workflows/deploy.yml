@@ -33,6 +33,19 @@ jobs:
 
       - name: Build application
         run: npm run build
+        
+      - name: Test Hostinger SSH
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y sshpass
+
+          sshpass -p "${{ secrets.HOSTINGER_PASSWORD }}" \
+          ssh \
+            -o StrictHostKeyChecking=no \
+            -o ConnectTimeout=15 \
+            -p "${{ secrets.HOSTINGER_PORT }}" \
+            "${{ secrets.HOSTINGER_USERNAME }}@${{ secrets.HOSTINGER_HOST }}" \
+            "echo 'SSH connection successful'"
 
       - name: Deploy to Hostinger
         uses: appleboy/scp-action@v1
