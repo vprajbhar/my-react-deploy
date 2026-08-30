@@ -54,5 +54,5 @@ jobs:
           password: ${{ secrets.HOSTINGER_PASSWORD }}
           port: ${{ secrets.HOSTINGER_PORT }}
           source: "dist/*"
-          target: "public_html/"
+          target: "domains/mytravelinindia.in/public_html/"
           strip_components: 1
