@@ -35,6 +35,20 @@ jobs:
       # 5. Build React application
       - name: Build React application
         run: npm run build
+        
+        # 6. Test SSH connection
+      - name: Test Hostinger SSH
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y sshpass
+
+          sshpass -p "${{ secrets.HOSTINGER_PASSWORD }}" \
+          ssh \
+            -o StrictHostKeyChecking=no \
+            -o ConnectTimeout=15 \
+            -p "${{ secrets.HOSTINGER_PORT }}" \
+            "${{ secrets.HOSTINGER_USERNAME }}@${{ secrets.HOSTINGER_HOST }}" \
+            "echo 'SSH connection successful'"
 
       # 6. Deploy dist to Hostinger
       - name: Deploy to Hostinger
